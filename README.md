@@ -12,26 +12,27 @@ example python client API code availabe with the: python_client_api.py
 OAuth2 : 
     grant_type: "client_credentials"
 
-'''python
+
 client_id = 'yourClientIDKey'
 client_secret = 'yourClientSuperDuperSecretKey'
 token_url = 'https://fiskalapi.efiskal.me/api/authentication/oauth2/token'
 ...
 ...
 access_token = response.json()['access_token']
-'''
+
 use access token in headers:
-'''python
+
 headers = {
     'Authorization': f'Bearer {access_token}'
 }
-'''
+
 # 2. use company_id: company_id is required for live database use !
 for testing, the company_id is not required, it will always be #1 by default
 for production, use of the company_id is mandatory
 
 # 3. manage products:
 ### 3.1 search products : method \[GET\] 
+
 url: https://fiskalapi.efiskal.me/api/search/product.template
 attributes (optional): {"domain" : []} #put domain for filtering results
 response (JSON) retun ids of the products:
@@ -47,8 +48,19 @@ attributes (list of ids):
 "ids" : [3]
 "fields" : ["id","name","lst_price","taxes_id"]
 
-response: will return results for a fields defined (or all the fields if fields values is omitted)
-[
+**response** (JSON) retun ids of the products:
+`[ 3, 4, 5, ]`
+
+
+#### 3.2 read products : method \[GET\] 
+url: [/api/read/product.template](https://fiskalapi.efiskal.me/api/read/product.template "/api/read/product.template")
+
+**attributes** (list of ids): 
+`"ids" : [3]
+"fields" : ["id","name","lst_price","taxes_id"]`
+
+**response:** will return results for a fields defined (or all the fields if fields values is omitted)
+`[
     {
         "id": 3,
         "lst_price": 12.5,
@@ -57,7 +69,7 @@ response: will return results for a fields defined (or all the fields if fields 
             1
         ]
     }
-]
+]`
 
 ### 3.3 create product : method \[POST\] 
 url: https://fiskalapi.efiskal.me/api/create/product.template
@@ -66,7 +78,7 @@ attributes: "values" : {
     "lst_price" : "5.0",
 }
 
-response: will be the ID of the new recod
+**response:** will be the ID of the new recod
 [
     6
 ]
@@ -78,9 +90,10 @@ attributes:
 "values" : {
     "name" : "product name", 
     "lst_price" : "5.0",
-}
+}`
 
-response: will return true if success
+**response:** will return true if success
+`true`
 
 
 # 4. manage invoicing:
@@ -113,7 +126,7 @@ data = {
 response = requests.post(api_url, headers=headers, data=data)
 print('\n### KREIRAJ U FISKALIZUJ ###\n{}'.format(response.json()))
 
-''' json response sample: Invoice fiscalisation details
+**response:** json response sample: Invoice fiscalisation details
 {
     "access_url": "/my/invoices/9",
     "fiskal_id": 4,
